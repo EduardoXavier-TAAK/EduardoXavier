@@ -12,7 +12,7 @@ public class LargestOfThree {
         ints.add(num2);
         ints.add(num3);
 
-        Integer ref = -100;
+        Integer ref = num1;
         for(Integer i : ints){
             if(i > ref){
                 ref = i;
