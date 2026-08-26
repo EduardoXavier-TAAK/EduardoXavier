@@ -1,0 +1,6 @@
+*.sfdx
+*VSCODEQuickStart
+*DS_STORE
+*.vscode
+*Caelum
+*.sf
