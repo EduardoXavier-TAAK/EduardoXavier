@@ -9,7 +9,6 @@ public with sharing class CadastroDeContas {
         for(Conta i: this.contas){ System.debug(i.getNomeTitular()+ ' - ' + i.getNumeroConta()); }
     }
 
-
     public List<Conta> getAllContas(){ return this.contas; }
     
 }
