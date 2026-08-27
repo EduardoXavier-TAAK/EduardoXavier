@@ -29,7 +29,7 @@ System.debug('Total de taxas cobradas: ' + calc.getTotalTaxas());
 System.debug('Total de taxas cobradas na história: ' + CalculadoraDeTaxas.historicoTotalTaxas);
 
 
-// Calculo de Impostos + taxas ContaCorrente
+// Calculo de Impostos
 
 List<Tributavel> lsContasTributaveis = new List<Tributavel>();
 
