@@ -1,0 +1,1 @@
+public enum PeriodoReserva { MANHA, TARDE, NOITE }

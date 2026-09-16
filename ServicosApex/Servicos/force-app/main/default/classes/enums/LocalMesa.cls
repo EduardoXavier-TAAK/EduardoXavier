@@ -1,0 +1,1 @@
+public enum LocalMesa { SALAO, JARDIM }
