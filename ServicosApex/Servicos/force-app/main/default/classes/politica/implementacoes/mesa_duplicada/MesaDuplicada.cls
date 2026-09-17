@@ -5,7 +5,7 @@ public with sharing class MesaDuplicada {
 
         for(Integer i = 0; i < mesas.size(); i++){
             for(Integer j = i + 1; j <= mesas.size() - 1; j++){ 
-                if(mesas[i].numero.getIdentificador() == mesas[j].numero.getIdentificador()){ 
+                if(mesas[i].getIdentificador() == mesas[j].getIdentificador()){ 
                     throw new IllegalArgumentException('Numero de mesa duplicado!'); 
                 }
             }
@@ -15,8 +15,8 @@ public with sharing class MesaDuplicada {
 
     public void mesaDuplicada(List<Mesa> mesas, Mesa mesa){
 
-        for(Mesa i : this.mesas){ 
-                if(i.numero.getIdentificador() == mesa.numero.getIdentificador()){  
+        for(Mesa i : mesas){ 
+                if(i.getIdentificador() == mesa.getIdentificador()){  
                     throw new IllegalArgumentException('Numero de mesa já cadastrado!'); 
             } 
         }
