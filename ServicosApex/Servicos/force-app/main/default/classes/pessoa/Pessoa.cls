@@ -7,5 +7,5 @@ public abstract class Pessoa {
         this.cpf = cpf;
     }
 
-    public Documento getCPF(){ return this.cpf; }
+    public String getCPF(){ return this.cpf.getCPF(); }
 }
