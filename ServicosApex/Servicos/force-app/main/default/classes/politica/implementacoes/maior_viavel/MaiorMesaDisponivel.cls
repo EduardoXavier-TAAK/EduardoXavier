@@ -5,7 +5,7 @@ public with sharing class MaiorMesaDisponivel implements PoliticaAlocacaoMesa{
     }
 
 
-    Mesa selecionarMesa(List<Mesa> mesas, QuantidadePessoas quant, LocalMesa local, PeriodoReserva periodo){
+    public Mesa selecionarMesa(List<Mesa> mesas, QuantidadePessoas quant, LocalMesa local, PeriodoReserva periodo){
         
         if(!mesas.isEmpty()){
 
