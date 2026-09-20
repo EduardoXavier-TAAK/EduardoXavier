@@ -12,7 +12,7 @@ public with sharing class PoliticaPrioridadeSalao implements PoliticaAlocacaoMes
         
         List<Mesa> disponiveis = new List<Mesa>();
         
-        if(this.reservas != null) {
+        if(!this.reservas.isEmpty()) {
             for(Mesa i : mesas){
                 if(i.getCapacidade() < quant.getQuantidade() || i.getLocal() != local){ continue; }
                 
@@ -36,13 +36,12 @@ public with sharing class PoliticaPrioridadeSalao implements PoliticaAlocacaoMes
             return disponiveis;
             
         } else {
-            
-            System.debug('=> Prioridade de Alocação: Lista de Reservas vazia');
-            
+    
             for(Mesa i: mesas){
-                if(i.getCapacidade() >= quant.getQuantidade() && i.getLocal() == local){
-                    disponiveis.add(i);
-                }
+
+                if(i.getCapacidade() < quant.getQuantidade() || i.getLocal() != local){ continue; }
+
+                disponiveis.add(i);
             }
             
             return disponiveis;

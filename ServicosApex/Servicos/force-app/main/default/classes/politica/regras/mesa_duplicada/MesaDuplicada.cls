@@ -2,6 +2,7 @@ public with sharing class MesaDuplicada {
     public MesaDuplicada() {}
     
     public void mesasDuplicadas(List<Mesa> mesas){
+        if(mesas.isEmpty()){ return; }
         
         for(Integer i = 0; i < mesas.size(); i++){
             for(Integer j = i + 1; j <= mesas.size() - 1; j++){

@@ -8,17 +8,27 @@ public with sharing class EstadoPendente extends EstadoReserva{
     }
     
     public Restaurante.Reserva promover(Restaurante.Reserva reserva, List<Restaurante.Reserva> listaEspera){
-        Restaurante.Reserva newReserva = this.promocao.regraPromocao(reserva, listaEspera);
+        Restaurante.Reserva newReserva = this.promocao.regraPromocaoCancelamento(reserva, listaEspera);
         
-        if(newReserva != null){
-            return this.estadoConfirma.confirmar(newReserva);
+        return verificacao(newReserva);
+    }
+
+    public Restaurante.Reserva promoverAddMesa(List<Restaurante.Reserva> listaEspera, Mesa mesa){
+        Restaurante.Reserva newReserva = this.promocao.regraPromocaoAddMesa(listaEspera, mesa);
+        
+        return verificacao(newReserva);
+    }
+
+    private Restaurante.Reserva verificacao(Restaurante.Reserva reserva){
+ 
+        if(reserva != null){
+            return this.estadoConfirma.confirmar(reserva);
         } else {
-            System.debug('Não foi encontrada reserva adequada na lista de espera.');
             return null;
         }
+
     }
     
     public void cancelar(Restaurante.Reserva reserva){ new EstadoCancela(reserva); }
-    
     
 }

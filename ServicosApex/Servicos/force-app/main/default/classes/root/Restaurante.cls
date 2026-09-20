@@ -6,6 +6,7 @@ public with sharing class Restaurante {
     private String endereco;
     private MesaDuplicada duplicadas;
     private GerenciadorReservas gerenciador;
+    private EstadoPendente pendente;
     
     
     public Restaurante(String nome, String endereco, List<Mesa> mesas) {
@@ -20,34 +21,58 @@ public with sharing class Restaurante {
         this.mesas = mesas;
     }
     
-    public void adicionarMesa(Mesa mesa) {  
-
-        duplicadas.mesaDuplicada(this.mesas, mesa);
+    public void adicionarMesa(Mesa mesa) {
         
+        duplicadas.mesaDuplicada(this.mesas, mesa);
+
+        try{
+            Restaurante.Reserva reservaPromovida = gerenciador.promocaoAddMesa(this.listaEspera, mesa);
+
+        } catch (IllegalArgumentException e){ System.debug(e.getMessage()); }
+
         this.mesas.add(mesa);
     }
     
-    public void confirmarReserva(Cliente cliente, QuantidadePessoas quant, LocalMesa local, 
-                                                  PeriodoReserva periodo, Boolean aceitaListaEspera){
+    
+    public void confirmarReserva(Cliente cliente, QuantidadePessoas quant, LocalMesa local,
+    PeriodoReserva periodo, Boolean aceitaListaEspera){
+
+        try {
+            Restaurante.Reserva reserva = gerenciador.criarReserva(cliente,
+            this,
+            quant,
+            local,
+            periodo,
+            aceitaListaEspera);
+                
+            if(reserva.status instanceof EstadoPendente){
+                this.listaEspera.add(reserva);
+                System.debug('Reserva adicionada a lista de espera! ');
+                return;
+            } else {
+                this.reservas.add(reserva);
+            }
+
+            System.debug('Reserva Confirmada: ' +
+                reserva.getRestaurante().getNome() + ' - ' + reserva.getCliente().getNome());
+
+        } catch (Exception e){ System.debug(e.getMessage()); }
         
-        Restaurante.Reserva reserva = gerenciador.criarReserva(cliente,
-        this,
-        quant,
-        local,
-        periodo,
-        aceitaListaEspera);
-        
-        if(reserva.status instanceof EstadoPendente){ this.listaEspera.add(reserva); }
-        
-        else { this.reservas.add(reserva); }
-        
-        System.debug('Reserva Confirmada: ' +
-            reserva.getRestaurante().getNome() + ' - ' + reserva.getCliente());
     }
     
     
-    public void cancelaReserva(Restaurante.Reserva reserva){ gerenciador.cancelarReserva(reserva, this.listaEspera); }
+    public void cancelaReserva(Restaurante.Reserva reserva){ 
+        try{
+            this.reservas.add(gerenciador.cancelarReserva(reserva, this.listaEspera));
 
+        } catch (IllegalArgumentException e){ System.debug(e.getMessage()); }
+ 
+    }
+    
+    
+    public Mesa buscarMesa(QuantidadePessoas quant, LocalMesa local, PeriodoReserva periodo){
+        return gerenciador.buscarDisponibilidade(quant, local, periodo, this);
+    }
     
     public String getNome(){ return this.nome; }
     
@@ -56,9 +81,9 @@ public with sharing class Restaurante {
     public List<Mesa> getMesas(){ return this.mesas; }
     
     public List<Reserva> getReservas(){ return new List<Restaurante.Reserva>(this.reservas); }
-    
-    public List<Reserva> getListaEspera(){ return new List<Restaurante.Reserva>(this.listaEspera); }
 
+    public List<Reserva> getListaEspera(){ return new List<Restaurante.Reserva>(this.listaEspera); }
+    
     public with sharing class Reserva {
         private Cliente cliente;
         private Restaurante restaurante;
