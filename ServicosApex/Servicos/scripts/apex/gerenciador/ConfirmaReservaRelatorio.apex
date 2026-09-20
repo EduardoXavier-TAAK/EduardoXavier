@@ -1,34 +1,25 @@
-Map<String, Object> payloadRestaurante = new Map<String, Object>{
-    'nome' => 'Pizzaria do Bairro',
-    'endereco' => 'Rua das Flores, 120',
-    'reservas' => new List<Object>(),
-    'listaEspera' => new List<Object>(),
-    'mesas' => new List<Object>{
-        new Map<String, Object>{
-            'numero' => new Map<String, Object>{ 'identificador' => 1 },
-            'capacidade' => new Map<String, Object>{ 'quantidade' => 2 },
-            'local' => 'SALAO'
-        },
-        new Map<String, Object>{
-            'numero' => new Map<String, Object>{ 'identificador' => 2 },
-            'capacidade' => new Map<String, Object>{ 'quantidade' => 4 },
-            'local' => 'JARDIM'
-        },
-        new Map<String, Object>{
-            'numero' => new Map<String, Object>{ 'identificador' => 3 },
-            'capacidade' => new Map<String, Object>{ 'quantidade' => 6 },
-            'local' => 'SALAO'
-        }
-    }
-};
+List<Mesa> mesas = new List<Mesa>();
 
-Restaurante restaurante = (Restaurante) JSON.deserialize(JSON.serialize(payloadRestaurante), Restaurante.class);
-System.debug('Restaurante montado: ' + restaurante.getNome() + ' | Mesas: ' + restaurante.getMesas().size());
+mesas.add(new Mesa(new IdentificadorMesa(1), new QuantidadePessoas(2), LocalMesa.SALAO));
+mesas.add(new Mesa(new IdentificadorMesa(2), new QuantidadePessoas(6), LocalMesa.SALAO));
+mesas.add(new Mesa(new IdentificadorMesa(3), new QuantidadePessoas(4), LocalMesa.JARDIM));
+mesas.add(new Mesa(new IdentificadorMesa(4), new QuantidadePessoas(2), LocalMesa.SALAO));
+mesas.add(new Mesa(new IdentificadorMesa(5), new QuantidadePessoas(2), LocalMesa.SALAO));
+mesas.add(new Mesa(new IdentificadorMesa(6), new QuantidadePessoas(2), LocalMesa.SALAO));
+mesas.add(new Mesa(new IdentificadorMesa(7), new QuantidadePessoas(6), LocalMesa.JARDIM));
+mesas.add(new Mesa(new IdentificadorMesa(8), new QuantidadePessoas(2), LocalMesa.SALAO));
+mesas.add(new Mesa(new IdentificadorMesa(9), new QuantidadePessoas(5), LocalMesa.SALAO));
+mesas.add(new Mesa(new IdentificadorMesa(10), new QuantidadePessoas(1), LocalMesa.SALAO));
 
-Cliente cliente1 = new Cliente('Ana Silva', cpfValido);
+Restaurante restaurante = new Restaurante('Pizzaria do Bairro', 'Rua do bombom', mesas);
+
+
+System.debug('Restaurante montado: ' + restaurante.getNome() + ' -  Mesas: ' + restaurante.getMesas().size());
+
+Cliente cliente1 = new Cliente('Ana Silva', new Documento('53844927832'));
 Cliente cliente2 = new Cliente('Bruno Costa', new Documento('98765432100'));
 
-Reserva reservaConfirmada = new Reserva(
+Restaurante.Reserva reservaConfirmada = new Reserva(
     cliente1,
     restaurante,
     new QuantidadePessoas(2),
@@ -41,7 +32,7 @@ Mesa mesaParaConfirmacao = restaurante.getMesas()[0];
 new EstadoConfirma().confirmar(mesaParaConfirmacao, reservaConfirmada);
 restaurante.getReservas().add(reservaConfirmada);
 
-Reserva reservaConfirmada2 = new Reserva(
+Restaurante.Reserva reservaConfirmada2 = new Reserva(
     cliente2,
     restaurante,
     new QuantidadePessoas(4),
@@ -49,6 +40,7 @@ Reserva reservaConfirmada2 = new Reserva(
     PeriodoReserva.NOITE,
     new EstadoPendente()
 );
+
 new EstadoConfirma().confirmar(restaurante.getMesas()[1], reservaConfirmada2);
 restaurante.getReservas().add(reservaConfirmada2);
 

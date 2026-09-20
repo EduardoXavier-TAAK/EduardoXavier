@@ -1,39 +1,24 @@
-public with sharing class EstadoPendente extends EstadoReserva implements PoliticaPromocaoListaEspera{
+public with sharing class EstadoPendente extends EstadoReserva{
     private EstadoConfirma estadoConfirma;
-    private Mesa mesa;
-
-    public EstadoPendente() {}
-
-    public void promover(Reserva reserva, Integer i){
-        verificar(reserva);
-       
-        estadoConfirma.confirmar(mesa, reserva);
-
-        reserva.getRestaurante().
-                getListaEspera().
-                remove(i);
+    private PoliticaPromocao promocao;
+    
+    public EstadoPendente() {
+        this.estadoConfirma = new EstadoConfirma();
+        this.promocao = new PoliticaPromocao();
     }
-
-    public Reserva regraPromocao(Reserva reserva, Restaurante restaurante){
-        List<Reserva> espera = restaurante.getListaEspera();
-
-        for(Integer i = espera.size() - 1; i >= 0; i--){
-            if((espera[i].mesa.getCapacidade() == reserva.mesa.getCapacidade() && 
-                espera[i].getPeriodo() == reserva.getPeriodo()) &&
-                espera[i].getLocal() == reserva.getLocal()){
-
-                    if(espera[i].status instanceof EstadoCancela){
-                        continue;
-                    } else {   
-                        return espera[i];
-                    }
-               }
+    
+    public Restaurante.Reserva promover(Restaurante.Reserva reserva, List<Restaurante.Reserva> listaEspera){
+        Restaurante.Reserva newReserva = this.promocao.regraPromocao(reserva, listaEspera);
+        
+        if(newReserva != null){
+            return this.estadoConfirma.confirmar(newReserva);
+        } else {
+            System.debug('Não foi encontrada reserva adequada na lista de espera.');
+            return null;
         }
-
-        return null;
     }
-
-    public void cancelar(Reserva reserva){ new EstadoCancela(reserva); }
-
-
+    
+    public void cancelar(Restaurante.Reserva reserva){ new EstadoCancela(reserva); }
+    
+    
 }

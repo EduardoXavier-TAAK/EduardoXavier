@@ -18,16 +18,35 @@ Map<String, Object> payloadRestaurante = new Map<String, Object>{
             'numero' => new Map<String, Object>{ 'identificador' => 3 },
             'capacidade' => new Map<String, Object>{ 'quantidade' => 6 },
             'local' => 'SALAO'
+        },
+
+        new Map<String, Object>{
+            'numero' => new Map<String, Object>{ 'identificador' => 4 },
+            'capacidade' => new Map<String, Object>{ 'quantidade' => 6 },
+            'local' => 'SALAO'
+        },
+
+        new Map<String, Object>{
+            'numero' => new Map<String, Object>{ 'identificador' => 5 },
+            'capacidade' => new Map<String, Object>{ 'quantidade' => 6 },
+            'local' => 'SALAO'
         }
     }
 };
 
+
 Restaurante restaurante = (Restaurante) JSON.deserialize(JSON.serialize(payloadRestaurante), Restaurante.class);
-System.debug('Restaurante montado: ' + restaurante.getNome() + ' | Mesas: ' + restaurante.getMesas().size());
+System.debug('Restaurante montado: ' + restaurante.getNome() + ' - Mesas: ' + restaurante.getMesas().size());
 
 GerenciadorReservas gerenciador = new GerenciadorReservas();
 
+Cliente cliente1 = new Cliente('Ana Silva', new Documento('53844927832'));
+Cliente cliente2 = new Cliente('Bruno Costa', new Documento('98765432100'));
+
 try {
+    for(Integer i = 0; i <= 5; i++){
+        
+    }
     Mesa mesaDisponivel = gerenciador.buscarDisponibilidade(
         restaurante.getMesas(),
         new QuantidadePessoas(2),
@@ -35,7 +54,8 @@ try {
         PeriodoReserva.MANHA,
         restaurante
     );
-    System.debug('Mesa encontrada pela política -> identificador: ' + mesaDisponivel.getIdentificador() + ' | local: ' + mesaDisponivel.local);
+    
+    System.debug('Mesa encontrada pela política -> identificador: ' + mesaDisponivel.getIdentificador() + ' - local: ' + mesaDisponivel.local);
 } catch (Exception e) {
     System.debug('Busca de mesa -> ' + e.getTypeName() + ': ' + e.getMessage());
 }
@@ -59,5 +79,5 @@ List<Mesa> mesasPriorizadas = prioridade.selecionarMesa(restaurante.getMesas(), 
 System.debug('Mesas priorizadas para o salão -> ' + mesasPriorizadas.size());
 
 for (Mesa mesa : mesasPriorizadas) {
-    System.debug('  -> mesa ' + mesa.getIdentificador() + ' / capacidade ' + mesa.getCapacidade() + ' / local ' + mesa.local);
+    System.debug('  -> mesa ' + mesa.getIdentificador() + ' / capacidade ' + mesa.getCapacidade() + ' / local ' + mesa.getMesa());
 }

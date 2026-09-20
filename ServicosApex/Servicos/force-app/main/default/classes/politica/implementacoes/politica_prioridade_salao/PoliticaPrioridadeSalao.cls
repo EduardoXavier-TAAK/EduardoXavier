@@ -1,40 +1,51 @@
 public with sharing class PoliticaPrioridadeSalao implements PoliticaAlocacaoMesa{
-    private Mesa mesa;
-    private Restaurante restaurante;
-
-    public PoliticaPrioridadeSalao(Restaurante restaurante) {
-        this.restaurante = restaurante;
+    private List<Restaurante.Reserva> reservas;
+    
+    public PoliticaPrioridadeSalao(List<Restaurante.Reserva> reservas) {
+        this.reservas = reservas;
     }
-
-    public List<Mesa> selecionarMesa(List<Mesa> mesas, QuantidadePessoas quant, LocalMesa local, PeriodoReserva periodo){ 
-        List<Mesa> disponiveis = iteracao(mesas, quant, LocalMesa.SALAO, periodo);
-
-        if(disponiveis.isEmpty()){ disponiveis = iteracao(mesas, quant, LocalMesa.JARDIM, periodo); }
-
-        return disponiveis;
-    }
-
-
-    private List<Mesa> iteracao(List<Mesa> mesas, QuantidadePessoas quant, LocalMesa local, PeriodoReserva periodo){
-        List<Mesa> result = new List<Mesa>();
-        List<Reserva> reservas = this.restaurante.getReservas();
-
-        for(Mesa i : mesas){
-            if(i.getCapacidade() <= quant.getQuantidade() && i.local == local){
-
-                for(Reserva j: reservas){
-                    if((i.getIdentificador() == j.mesa.getIdentificador() &&
-                        j.getPeriodo() == periodo) && 
-                        j.status instanceof EstadoConfirma){
-                            break;
-                        }
-                }
-
-                result.add(i);
-            }
-        }
-
-        return result;
-    }
+    
+    public List<Mesa> selecionarMesa(List<Mesa> mesas,
+    QuantidadePessoas quant,
+    LocalMesa local,
+    PeriodoReserva periodo){
         
+        List<Mesa> disponiveis = new List<Mesa>();
+        
+        if(this.reservas != null) {
+            for(Mesa i : mesas){
+                if(i.getCapacidade() < quant.getQuantidade() || i.getLocal() != local){ continue; }
+                
+                Boolean ocupada = false;
+                
+                for(Restaurante.Reserva j: this.reservas){
+                    
+                    if((i.getIdentificador() == j.mesa.getIdentificador() &&
+                        j.getPeriodo() == periodo) &&
+                        j.status instanceof EstadoConfirma){
+                        ocupada = true;
+                        break;
+                    }
+                }
+                
+                if(!ocupada){
+                    disponiveis.add(i);
+                }
+            }
+            
+            return disponiveis;
+            
+        } else {
+            
+            System.debug('=> Prioridade de Alocação: Lista de Reservas vazia');
+            
+            for(Mesa i: mesas){
+                if(i.getCapacidade() >= quant.getQuantidade() && i.getLocal() == local){
+                    disponiveis.add(i);
+                }
+            }
+            
+            return disponiveis;
+        }
+    }
 }
