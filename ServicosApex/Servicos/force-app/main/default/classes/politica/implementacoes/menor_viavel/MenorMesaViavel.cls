@@ -12,9 +12,7 @@ public with sharing class MenorMesaViavel implements PoliticaAlocacaoMesa {
     PeriodoReserva periodo){
 
         PoliticaPrioridadeSalao politica = new PoliticaPrioridadeSalao(this.reservas);
-
-        if(mesas.isEmpty()){ System.debug('Restaurante não tem mesas registradas! '); }
-
+        
         mesas = politica.selecionarMesa(mesas, quant, local, periodo);
         
         

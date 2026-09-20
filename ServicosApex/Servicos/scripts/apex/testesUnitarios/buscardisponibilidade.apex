@@ -8,10 +8,10 @@ restaurante.buscarMesa(new QuantidadePessoas(1), LocalMesa.SALAO, PeriodoReserva
 
 Mesa mesaPrimeira = new Mesa(new IdentificadorMesa(9), new QuantidadePessoas(6), LocalMesa.SALAO);
 
-restaurante.adicionarMesa(mesaPrimeira);
 
 System.debug('----------Teste buscar com uma mesa-------------');
 
+restaurante.adicionarMesa(mesaPrimeira);
 
 restaurante.buscarMesa(new QuantidadePessoas(1), LocalMesa.SALAO, PeriodoReserva.MANHA);
 
@@ -25,6 +25,7 @@ for(Integer i = 1; i <= 2; i++){
     restaurante.adicionarMesa(mesa2);
 }
 
+System.debug('----------Lista de mesas-------------');
 
 for(Mesa i : restaurante.getMesas()){
     System.debug('ID: ' + i.getIdentificador().toString() + ' - ' + i.getLocal().toString() + ' - ' + i.getCapacidade().toString());
