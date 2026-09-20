@@ -1,5 +1,5 @@
 public with sharing class EstadoCancela extends EstadoReserva {
 
-    public EstadoCancela(Reserva reserva) { reserva.status = this; }
+    public EstadoCancela(Restaurante.Reserva reserva) { reserva.status = this; }
 
 }
