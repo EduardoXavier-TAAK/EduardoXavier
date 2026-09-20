@@ -26,10 +26,11 @@ public with sharing class RelatorioReservasService {
         for(String i : reservasConfirmadas.keySet()){
             temp = reservasConfirmadas.get(i);
             
+            System.debug( 'Cliente: ' + i + ' -' + ' Reservas: ');
+            
             for(Restaurante.Reserva j : temp){
-
-                System.debug('Cliente: ' + i + ' -' + ' Reservas: ' +
-                    j.getRestaurante().getNome() + ' - Mesa:' + j.mesa.getCapacidade());
+                System.debug(j.getRestaurante().getNome() + ' - Mesa: ' + j.mesa.getIdentificador().toString() + 
+                                                                                    ' - ' + j.getPeriodo().toString());
             }
         }
         

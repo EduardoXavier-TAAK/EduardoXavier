@@ -52,7 +52,9 @@ public with sharing class GerenciadorReservas {
         if(reserva.mesa != null){
             Restaurante.Reserva reservaPromovida = this.estadoPendente.promover(reserva, listaEspera);
             
-            return verificarPromocao(reservaPromovida);
+            reservaPromovida = verificarPromocao(reservaPromovida);
+            System.debug('Reserva Promovida! - ' + reservaPromovida.getCliente().getNome());
+            return reservaPromovida;
         }
         
         throw new IllegalArgumentException('Reserva em lista de espera cancelada!');
@@ -63,7 +65,6 @@ public with sharing class GerenciadorReservas {
         
         return verificarPromocao(newReserva);
     }
-    
     
     private Restaurante.Reserva verificarPromocao(Restaurante.Reserva reserva){
         if(reserva != null){ return reserva; }

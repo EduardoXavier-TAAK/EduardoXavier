@@ -21,16 +21,15 @@ public with sharing class Restaurante {
         this.mesas = mesas;
     }
     
-    public void adicionarMesa(Mesa mesa) {
-        
-        duplicadas.mesaDuplicada(this.mesas, mesa);
-
+    public void adicionarMesa(Mesa mesa) {   
         try{
+            duplicadas.mesaDuplicada(this.mesas, mesa); 
+            this.mesas.add(mesa);
+
             Restaurante.Reserva reservaPromovida = gerenciador.promocaoAddMesa(this.listaEspera, mesa);
+            this.reservas.add(reservaPromovida);
 
-        } catch (IllegalArgumentException e){ System.debug(e.getMessage()); }
-
-        this.mesas.add(mesa);
+        } catch (IllegalArgumentException e){ System.debug(e.getMessage()); }     
     }
     
     
@@ -69,9 +68,14 @@ public with sharing class Restaurante {
  
     }
     
-    
-    public Mesa buscarMesa(QuantidadePessoas quant, LocalMesa local, PeriodoReserva periodo){
-        return gerenciador.buscarDisponibilidade(quant, local, periodo, this);
+    public void buscarMesa(QuantidadePessoas quant, LocalMesa local, PeriodoReserva periodo){
+        try {
+            Mesa mesa = gerenciador.buscarDisponibilidade(quant, local, periodo, this);
+
+            System.debug('Mesa: ' + mesa.getIdentificador().toString());
+        } catch(IllegalArgumentException e){
+            System.debug(e.getMessage());
+        }
     }
     
     public String getNome(){ return this.nome; }

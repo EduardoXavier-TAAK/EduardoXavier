@@ -33,7 +33,7 @@ try {
 
 System.debug('----------- Teste Restaurante -----------------');
 
-System.debug(restaurante.getNome() + ' - ' + restaurante.getEndereco() + ' - Mesas:');
+System.debug(restaurante.getNome() + ' - ' + restaurante.getEndereco());
 
 
 
