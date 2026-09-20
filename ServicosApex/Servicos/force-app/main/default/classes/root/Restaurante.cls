@@ -27,6 +27,8 @@ public with sharing class Restaurante {
             Restaurante.Reserva reservaPromovida = gerenciador.promocaoAddMesa(this.listaEspera, mesa);
             this.reservas.add(reservaPromovida);
             
+            System.debug('Reserva promovida!');
+            
         } catch (IllegalArgumentException e){ System.debug(e.getMessage()); }
     }
     
