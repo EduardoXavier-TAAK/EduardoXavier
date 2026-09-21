@@ -23,7 +23,7 @@ public with sharing class Restaurante {
         try{
             duplicadas.mesaDuplicada(this.mesas, mesa);
             this.mesas.add(mesa);
-            
+    
             Restaurante.Reserva reservaPromovida = gerenciador.promocaoAddMesa(this.listaEspera, mesa);
             this.reservas.add(reservaPromovida);
             
@@ -33,19 +33,11 @@ public with sharing class Restaurante {
     }
     
     
-    public void confirmarReserva(Cliente cliente, 
-    QuantidadePessoas quant, LocalMesa local,
-    PeriodoReserva periodo, 
-    Boolean aceitaListaEspera){
+    public void confirmarReserva(Cliente cliente, QuantidadePessoas quant, LocalMesa local, PeriodoReserva periodo, Boolean aceitaListaEspera){
         
         try {
-            Restaurante.Reserva reserva = gerenciador.criarReserva(cliente,
-            this,
-            quant,
-            local,
-            periodo,
-            aceitaListaEspera);
-            
+            Restaurante.Reserva reserva = gerenciador.criarReserva(cliente, this, quant, local, periodo, aceitaListaEspera);
+                                                                    
             if(reserva.status instanceof EstadoPendente){
                 this.listaEspera.add(reserva);
                 System.debug('Reserva adicionada a lista de espera! ');
@@ -78,6 +70,7 @@ public with sharing class Restaurante {
         } catch(IllegalArgumentException e){ System.debug(e.getMessage()); }
     }
     
+    
     public String getNome(){ return this.nome; }
     
     public String getEndereco(){ return this.endereco; }
@@ -98,16 +91,7 @@ public with sharing class Restaurante {
         public EstadoReserva status;
         public Mesa mesa;
         
-        
-        public Reserva(Cliente cliente,
-        Restaurante restaurante,
-        QuantidadePessoas quantidadePessoas,
-        Mesa mesa,
-        LocalMesa localPreferencia,
-        PeriodoReserva periodo,
-        EstadoReserva status
-            )
-        {
+        public Reserva(Cliente cliente, Restaurante restaurante, QuantidadePessoas quantidadePessoas, Mesa mesa, LocalMesa localPreferencia, PeriodoReserva periodo, EstadoReserva status){
             this.cliente = cliente;
             this.restaurante = restaurante;
             this.mesa = mesa;
@@ -119,14 +103,7 @@ public with sharing class Restaurante {
         }
         
         
-        public Reserva(Cliente cliente,
-        Restaurante restaurante,
-        QuantidadePessoas quantidadePessoas,
-        LocalMesa localPreferencia,
-        PeriodoReserva periodo,
-        EstadoReserva status
-            )
-        {
+        public Reserva(Cliente cliente, Restaurante restaurante, QuantidadePessoas quantidadePessoas, LocalMesa localPreferencia, PeriodoReserva periodo, EstadoReserva status){
             this.cliente = cliente;
             this.restaurante = restaurante;
             this.mesa = null;

@@ -19,13 +19,7 @@ public with sharing class GerenciadorReservas {
     }
     
     
-    public Restaurante.Reserva criarReserva(Cliente cliente,
-    Restaurante restaurante,
-    QuantidadePessoas quant,
-    LocalMesa local,
-    PeriodoReserva periodo,
-    Boolean aceitaListaEspera){
-        
+    public Restaurante.Reserva criarReserva(Cliente cliente, Restaurante restaurante, QuantidadePessoas quant, LocalMesa local, PeriodoReserva periodo, Boolean aceitaListaEspera){
         Mesa disponivel;
         
         try {

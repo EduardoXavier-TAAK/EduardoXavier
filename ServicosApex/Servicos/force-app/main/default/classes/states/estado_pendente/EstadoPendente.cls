@@ -6,12 +6,14 @@ public with sharing class EstadoPendente extends EstadoReserva{
         
         return verificacao(newReserva);
     }
+
     
     public Restaurante.Reserva promoverAddMesa(List<Restaurante.Reserva> listaEspera, Mesa mesa){
         Restaurante.Reserva newReserva = new PoliticaPromocao().regraPromocaoAddMesa(listaEspera, mesa);
         
         return verificacao(newReserva);
     }
+    
     
     private Restaurante.Reserva verificacao(Restaurante.Reserva reserva){
         

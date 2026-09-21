@@ -5,10 +5,7 @@ public with sharing class PoliticaPrioridadeSalao implements PoliticaAlocacaoMes
         this.reservas = reservas;
     }
     
-    public List<Mesa> selecionarMesa(List<Mesa> mesas,
-    QuantidadePessoas quant,
-    LocalMesa local,
-    PeriodoReserva periodo){
+    public List<Mesa> selecionarMesa(List<Mesa> mesas, QuantidadePessoas quant, LocalMesa local, PeriodoReserva periodo){
         
         List<Mesa> disponiveis = new List<Mesa>();
         
@@ -20,9 +17,7 @@ public with sharing class PoliticaPrioridadeSalao implements PoliticaAlocacaoMes
                 
                 for(Restaurante.Reserva j: this.reservas){
                     
-                    if((i.getIdentificador() == j.mesa.getIdentificador() &&
-                        j.getPeriodo() == periodo) &&
-                        j.status instanceof EstadoConfirma){
+                    if((i.getIdentificador() == j.mesa.getIdentificador() && j.getPeriodo() == periodo) && j.status instanceof EstadoConfirma){
                         ocupada = true;
                         break;
                     }
@@ -36,11 +31,11 @@ public with sharing class PoliticaPrioridadeSalao implements PoliticaAlocacaoMes
             return disponiveis;
             
         } else {
-    
+            
             for(Mesa i: mesas){
-
+                
                 if(i.getCapacidade() < quant.getQuantidade() || i.getLocal() != local){ continue; }
-
+                
                 disponiveis.add(i);
             }
             

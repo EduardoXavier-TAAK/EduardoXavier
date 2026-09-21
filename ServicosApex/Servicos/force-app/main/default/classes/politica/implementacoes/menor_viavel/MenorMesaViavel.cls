@@ -6,10 +6,7 @@ public with sharing class MenorMesaViavel implements PoliticaAlocacaoMesa {
         this.reservas = reservas;
     }
     
-    public Mesa selecionarMesa(List<Mesa> mesas, 
-    QuantidadePessoas quant, 
-    LocalMesa local, 
-    PeriodoReserva periodo){
+    public Mesa selecionarMesa(List<Mesa> mesas,  QuantidadePessoas quant, LocalMesa local, PeriodoReserva periodo){
 
         PoliticaPrioridadeSalao politica = new PoliticaPrioridadeSalao(this.reservas);
         

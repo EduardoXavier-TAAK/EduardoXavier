@@ -1,6 +1,6 @@
 public with sharing class PoliticaPromocao implements PoliticaPromocaoListaEspera{
     private GerenciadorReservas gerenciador;
-
+    
     public PoliticaPromocao() {}
     
     public Restaurante.Reserva regraPromocaoCancelamento(Restaurante.Reserva reserva, List<Restaurante.Reserva> listaEspera){
@@ -15,22 +15,22 @@ public with sharing class PoliticaPromocao implements PoliticaPromocaoListaEsper
                 
                 if(listaEspera[i].status instanceof EstadoCancela){
                     continue;
-                } else {           
+                } else {
                     Restaurante.Reserva newReserva = listaEspera[i];
                     newReserva.mesa = reserva.mesa;
                     listaEspera.remove(i);
                     return newReserva;
-
+                    
                 }
             }
         }
-    
+        
         return null;
     }
-
-
+    
+    
     public Restaurante.Reserva regraPromocaoAddMesa(List<Restaurante.Reserva> listaEspera, Mesa mesa){
-                
+        
         if(listaEspera.isEmpty()){
             return null;
         }
@@ -41,27 +41,25 @@ public with sharing class PoliticaPromocao implements PoliticaPromocaoListaEsper
                 
                 if(listaEspera[i].status instanceof EstadoCancela){
                     continue;
-                } else {           
+                } else {
                     Restaurante.Reserva newReserva = listaEspera[i];
                     newReserva.mesa = mesa;
                     listaEspera.remove(i);
                     return newReserva;
-
+                    
                 }
             }
         }
         
         return null;
-
+        
     }
-
-
+    
+    
     private Boolean verificarIf(Restaurante.Reserva reserva1, Restaurante.Reserva reserva2){
-        if((reserva1.getQuantidade() <= reserva2.mesa.getCapacidade() &&
-            reserva1.getPeriodo() == reserva2.getPeriodo()) &&
-            reserva1.getLocal() == reserva2.getLocal()){
-                return true;
-            }
-            return false;
+        if((reserva1.getQuantidade() <= reserva2.mesa.getCapacidade() && reserva1.getPeriodo() == reserva2.getPeriodo()) && reserva1.getLocal() == reserva2.getLocal()){
+            return true;
+        }
+        return false;
     }
 }
