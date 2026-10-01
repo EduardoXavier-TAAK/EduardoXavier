@@ -3,10 +3,12 @@ AssociatedLocation la = [SELECT Id, User__c, ParentRecordId FROM AssociatedLocat
 delete la;
 
 System.debug('Lista de LAs da conta antiga');
+
 for(AssociatedLocation i : [SELECT User__c, ParentRecordId, Id FROM AssociatedLocation WHERE ParentRecordId =: la.ParentRecordId]){
     System.debug('User: ' + i.User__c + ' - Id do LA: ' + i.Id);
 }
 
+System.debug('========================================');
 
 System.debug('Usuario tem mais de um LA na conta antiga?');
 try{
