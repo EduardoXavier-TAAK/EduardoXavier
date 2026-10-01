@@ -46,7 +46,7 @@ public with sharing class AfterUpdateService {
     public Boolean moreThanOneLa(AssociatedLocation ls, String type){
         switch on type {
             when 'Account' {
-                List<AssociatedLocation> moreLa = [SELECT Id 
+                List<AssociatedLocation> moreLa = [SELECT Id, ParentRecordId, User__c
                                                     FROM AssociatedLocation 
                                                     WHERE ParentRecordId = :ls.ParentRecordId 
                                                     AND  User__c = : ls.User__c];
@@ -55,7 +55,7 @@ public with sharing class AfterUpdateService {
             }
             
             when 'User' {
-                List<AssociatedLocation> moreLa = [SELECT Id 
+                List<AssociatedLocation> moreLa = [SELECT Id, User__c
                                                     FROM AssociatedLocation 
                                                     WHERE User__c = :ls.User__c 
                                                     AND  Id != : ls.Id];

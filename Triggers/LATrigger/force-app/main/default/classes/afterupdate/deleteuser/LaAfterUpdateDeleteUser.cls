@@ -1,5 +1,5 @@
-public with sharing class LaAfterUpdateDeleteUser {
-    private AfterUpdateService service;
+public with sharing class LaAfterUpdateDeleteUser implements TriggerAction.AfterUpdate {
+    private AfterUpdateService service = new AfterUpdateService();
 
     public LaAfterUpdateDeleteUser() {}
 
@@ -9,15 +9,16 @@ public with sharing class LaAfterUpdateDeleteUser {
         
         for(Integer i = 0; i < triggernew.size(); i++){
             try{
-                oldUsers.add(service.fieldChange(triggernew[i], triggerold[i], 'Account'));
+                AssociatedLocation oldAccount = service.fieldChange(triggernew[i], triggerold[i], 'Account');
+                if(oldAccount != null){
+                    oldUsers.add(oldAccount);
 
-                Account acc = [SELECT Id, Representative__c FROM Account WHERE Id = :triggernew[i].ParentRecordId LIMIT 1].get(0);
+                    Account acc = [SELECT Id, Representative__c FROM Account WHERE Id = :triggernew[i].ParentRecordId LIMIT 1].get(0);
+                    acc.Representative__c = triggernew[i].User__c;
+                    update acc;
+                }
 
-                acc.Representative__c = triggernew[i].User__c;
-
-                update acc;
-
-            } catch(IllegalArgumentException e){
+            } catch(NullPointerException e){
                 System.debug('Campo não foi alterado');
                 continue;
             }
