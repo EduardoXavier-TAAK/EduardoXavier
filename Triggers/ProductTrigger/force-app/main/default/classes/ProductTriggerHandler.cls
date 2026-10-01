@@ -6,16 +6,18 @@ public with sharing class ProductTriggerHandler extends TriggerHandler {
     }
     
     public override void AfterInsert(){
+        Set<String> isoCodes = new Set<String>();
+        List<PricebookEntry> pbeList = new List<PricebookEntry>();
+        
         
         PriceBook2 standardPriceBook = [SELECT Id FROM PriceBook2 WHERE IsStandard = true LIMIT 1];
         
-        List<PricebookEntry> pbeList = new List<PricebookEntry>();
-        
+        List<CurrencyType> currencys = [SELECT IsoCode FROM CurrencyType];
+
+        for(CurrencyType i: currencys){ isoCodes.add(i.IsoCode); }
+
         for(Product2 p : this.products){
-            
-            pbeList.add(this.createPricebookEntry(p, standardPriceBook, 'BRL'));
-            
-            pbeList.add(this.createPricebookEntry(p, standardPriceBook, 'USD'));
+            for(String i : isoCodes){ pbeList.add(this.createPricebookEntry(p, standardPriceBook, i));  }
         }
         
         insert pbeList;
