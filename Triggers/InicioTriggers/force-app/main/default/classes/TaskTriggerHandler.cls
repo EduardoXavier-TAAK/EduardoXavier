@@ -8,14 +8,11 @@ public with sharing class TaskTriggerHandler extends TriggerHandler{
     
     public override void beforeInsert(){
         Set<Id> caseIds = new Set<Id>();
-        
-        
+         
         for (Task task : this.tasks) {
-            Boolean isWhatIdNull = task.WhatId == null;
-            
-            Boolean isCaseType = task.WhatId.getSObjectType() == Case.SObjectType;
-
-            if (!isWhatIdNull && isCaseType) { caseIds.add(task.WhatId); } 
+            if (task.WhatId == null && task.WhatId.getSObjectType() == Case.SObjectType) {
+                caseIds.add(task.WhatId);
+            }
         }
         
         if (!caseIds.isEmpty()) {
