@@ -51,7 +51,7 @@ public with sharing class AfterUpdateService {
                                                     WHERE ParentRecordId = :ls.ParentRecordId 
                                                     AND  User__c = : ls.User__c];
                 
-                return isMoreThanOne(moreLa);
+                return moreLa.isEmpty();
             }
             
             when 'User' {
@@ -59,7 +59,7 @@ public with sharing class AfterUpdateService {
                                                     FROM AssociatedLocation 
                                                     WHERE User__c = :ls.User__c 
                                                     AND  Id != : ls.Id];
-                return isMoreThanOne(moreLa);
+                return moreLa.isEmpty();
             }
             
             when else {
@@ -67,13 +67,5 @@ public with sharing class AfterUpdateService {
             }
         }
     }
-    
 
-    
-    private Boolean isMoreThanOne(List<AssociatedLocation> ls){
-        if(ls.isEmpty()){ return false; }
-        
-        else { return true; }
-        
-    }
 }
