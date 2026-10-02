@@ -27,13 +27,9 @@ public with sharing class LaAfterUpdateDeleteUser implements TriggerAction.After
         for(AssociatedLocation i : oldUsers){
             if(!service.moreThanOneLa(i, 'Account')){     
 
-                Account acc = [SELECT Id, Representative__c FROM Account WHERE Id = :i.ParentRecordId LIMIT 1].get(0);
 
                 AccountTeamMember atm = [SELECT Id FROM AccountTeamMember WHERE UserId = :i.User__c LIMIT 1].get(0);
 
-                acc.Representative__c = null;
-
-                update acc;
                 delete atm;
 
             }
