@@ -1,0 +1,2 @@
+SELECT AvailableQuantity, CreatedById, CreatedDate, Description, Discount__c, EndDate, Fee_Name__c, Id, IsDeleted, LastModifiedById, LastModifiedDate, ListPrice, Margin_Name__c, Margin_Percentage__c, Observation__c, OrderId, OrderItemNumber, OriginalOrderItemId, Price_Without_Margin__c, PricebookEntryId, Product2Id, Quantity, ServiceDate, Shipping_Cost__c, SystemModstamp, Tax_Name__c, Tax_Percentage__c, TotalPrice, UnitPrice
+  FROM OrderItem

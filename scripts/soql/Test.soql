@@ -1,0 +1,3 @@
+SELECT Id
+  FROM Order
+  WHERE OrderNumber = '00000117'
